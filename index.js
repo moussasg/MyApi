@@ -65,9 +65,11 @@ app.listen(PORT , () => {
 })
 */
 //Write a middleware to handle errors in Express.js and return a custom error message.
+const cors = require('cors');
 
 const express = require('express');
 const app = express();
+app.use(cors());
 const port = 3000; // Choose any port you prefer
 // Middleware to parse JSON bodies
 app.get('/' , (req,res) => {
@@ -76,9 +78,11 @@ app.get('/' , (req,res) => {
 
 app.use(express.json());
 // Define your API endpoints
+const users = [{ id: 1, name: 'John' }, { id: 2, name: 'Jane' }];
 app.get('/api/users', (req, res) => {
   // Logic to fetch and return a list of users
-  res.json({ users: [{ id: 1, name: 'John' }, { id: 2, name: 'Jane' }] });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.json({ users });
 });
 
 
