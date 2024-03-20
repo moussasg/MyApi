@@ -78,13 +78,28 @@ app.get('/' , (req,res) => {
 
 app.use(express.json());
 // Define your API endpoints
-const users = [{ id: 1, name: 'John' }, { id: 2, name: 'Jane' }];
+const users = [ { id: 1, name: 'John' }, { id: 2, name: 'Jane' } ];
+/* get all users */
 app.get('/api/users', (req, res) => {
   // Logic to fetch and return a list of users
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.json({ users });
 });
 
+app.get('/api/users/:id' , (req, res) => { // get spécifique user
+  try {
+    const {id} = req.params;// query pour récupéré email a partir de url
+    console.log(id);
+    const user = users.find(user => user.id === parseInt(id));
+    if (user) {
+      res.status(200).json({ success: true , user });
+    } else {
+      res.status(404).json({ success: false , message: 'User not found'});
+    }
+  } catch (err) {
+    res.status(500).json({ success: false , message: 'Server error' });
+  }
+})
 
 
 
